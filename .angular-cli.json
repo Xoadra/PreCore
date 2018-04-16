@@ -9,8 +9,8 @@
 	},
 	"apps": [
 		{
-			"root": "ClientApp",
-			"outDir": "dist",
+			"root": "Angular",
+			"outDir": "exe",
 			"assets": [
 				"assets",
 				"favicon.ico"
@@ -49,6 +49,5 @@
 		"component": {  }
 	}
 }
-
 
 

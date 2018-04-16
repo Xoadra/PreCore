@@ -16,7 +16,7 @@ import { Meta } from '@angular/platform-browser'
 
 export class AppComponent implements OnInit {
 	
-	title = 'app'
+	title = 'PreCore'
 	
 	
 	constructor( private _meta: Meta ) {  }

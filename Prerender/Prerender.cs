@@ -2,6 +2,8 @@
 
 
 
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
@@ -16,40 +18,32 @@ using PreCore.Models;
 namespace PreCore.Prerender {
 	public static class Name {
 		
-		public static IRequest AbstractRequestInfo( this HttpRequest request ) {
-			IRequest requestSimplified = new IRequest( );
-			requestSimplified.cookies = request.Cookies;
-			requestSimplified.headers = request.Headers;
-			requestSimplified.host = request.Host;
-			return requestSimplified;
+		public static IRequest Decode( this HttpRequest source ) {
+			IRequest http = new IRequest( );
+			http.cookies = source.Cookies;
+			http.headers = source.Headers;
+			http.host = source.Host;
+			return http;
 		}
 		
-		public static async Task<RenderToStringResult> BuildPrerender( this HttpRequest Request ) {
-			var nodeServices = Request.HttpContext.RequestServices.GetRequiredService<INodeServices>( );
-			var hostEnv = Request.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>( );
-			var applicationBasePath = hostEnv.ContentRootPath;
-			var requestFeature = Request.HttpContext.Features.Get<IHttpRequestFeature>( );
-			var unencodedPathAndQuery = requestFeature.RawTarget;
-			var unencodedAbsoluteUrl = $"{ Request.Scheme }://{ Request.Host }{ unencodedPathAndQuery }";
-			TransferData transferData = new TransferData( );
-			transferData.request = Request.AbstractRequestInfo( );
-			transferData.thisCameFromDotNET = "Hi Angular it's asp.net :)";
-			System.Threading.CancellationTokenSource cancelSource = new System.Threading.CancellationTokenSource( );
-			System.Threading.CancellationToken cancelToken = cancelSource.Token;
-			return await Prerenderer.RenderToString(
-				"/",
-				nodeServices,
-				cancelToken,
-				new JavaScriptModuleExport( applicationBasePath + "/ClientApp/dist/main-server" ),
-				unencodedAbsoluteUrl,
-				unencodedPathAndQuery,
-				transferData,
-				30000,
-				Request.PathBase.ToString( )
-			);
+		public static async Task<RenderToStringResult> Prerender( this HttpRequest trans ) {
+			INodeServices node = trans.HttpContext.RequestServices.GetRequiredService<INodeServices>( );
+			IHostingEnvironment zone = trans.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>( );
+			IHttpRequestFeature item = trans.HttpContext.Features.Get<IHttpRequestFeature>( );
+			String root = zone.ContentRootPath;
+			String path = item.RawTarget;
+			String url = $"{ trans.Scheme }://{ trans.Host }{ path }";
+			TransferData data = new TransferData( );
+			data.request = trans.Decode( );
+			data.thisCameFromDotNET = "The server beckons thee!!!";
+			CancellationTokenSource origin = new CancellationTokenSource( );
+			CancellationToken exe = origin.Token;
+			JavaScriptModuleExport js = new JavaScriptModuleExport( root + "/Angular/exe/server.bundle" );
+			return await Prerenderer.RenderToString( "/", node, exe, js, url, path, data, 30000, trans.PathBase.ToString( ) );
 		}
 		
 	}
 }
+
 
 

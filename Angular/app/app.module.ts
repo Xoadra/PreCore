@@ -26,6 +26,6 @@ import { BestService } from './services/best.service'
 } )
 
 
-export class RootModule {  }
+export class MetaModule {  }
 
 

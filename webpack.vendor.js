@@ -2,15 +2,16 @@
 
 
 
-const path = require( 'path' )
 const webpack = require( 'webpack' )
 const merge = require( 'webpack-merge' )
+const path = require( 'path' )
 
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' )
+const CleanWebpackPlugin = require( 'clean-webpack-plugin' )
 
 
 
-const treeShakableModules = [
+const vendors = [
 	'@angular/animations',
 	'@angular/common',
 	'@angular/compiler',
@@ -22,24 +23,21 @@ const treeShakableModules = [
 	'@angular/router',
 	'zone.js'
 ]
-const nonTreeShakableModules = [
+const polyfills = [
 	'core-js',
 	// 'es6-promise',
 	// 'es6-shim',
 	'event-source-polyfill'
 ]
-const allModules = treeShakableModules.concat( nonTreeShakableModules )
+const modules = vendors.concat( polyfills )
 
 
 module.exports = ( env ) => {
 	
-	console.log( `env = ${ JSON.stringify( env ) }` )
-	
-	const extractCSS = new ExtractTextPlugin( 'vendor.css' )
-	const isDevBuild = !( env && env.prod )
+	const develop = !( env && env.prod )
 	
 	
-	const sharedConfig = {
+	const meta = {
 		stats: { modules: false },
 		resolve: { extensions: [ '.js' ] },
 		module: {
@@ -47,57 +45,59 @@ module.exports = ( env ) => {
 				{ test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' }
 			]
 		},
-		output: { publicPath: 'dist/', filename: '[name].js', library: '[name]_[hash]' },
 		plugins: [
-			new webpack.ContextReplacementPlugin( /\@angular\b.*\b(bundles|linker)/, path.join( __dirname, './ClientApp' ) ),
-			new webpack.ContextReplacementPlugin( /(.+)?angular(\\|\/)core(.+)?/, path.join( __dirname, './ClientApp' ) ),
+			new CleanWebpackPlugin( [ 'Root/exe', 'Angular/exe' ] ),
+			new webpack.ContextReplacementPlugin( /\@angular\b.*\b(bundles|linker)/, path.join( __dirname, './Angular' ) ),
+			new webpack.ContextReplacementPlugin( /(.+)?angular(\\|\/)core(.+)?/, path.join( __dirname, './Angular' ) ),
 			new webpack.IgnorePlugin( /^vertx$/ )
-		]
+		],
+		output: { filename: '[name].bundle.js', publicPath: 'exe/', library: '[name]_[hash]' }
 	}
 	
 	
-	const clientBundleConfig = merge( sharedConfig, {
-		entry: { vendor: isDevBuild ? allModules : nonTreeShakableModules },
-		output: { path: path.join( __dirname, 'wwwroot', 'dist' ) },
+	const browser = merge( meta, {
+		entry: { vendor: develop ? modules : polyfills },
 		module: {
 			rules: [
 				{
 					test: /\.css(\?|$)/,
-					use: extractCSS.extract( { use: isDevBuild ? 'css-loader' : 'css-loader?minimize' } )
+					use: ExtractTextPlugin.extract( { use: develop ? 'css-loader' : 'css-loader?minimize' } )
 				}
 			]
 		},
 		plugins: [
-			extractCSS,
+			new ExtractTextPlugin( 'vendor.bundle.css' ),
 			new webpack.DllPlugin( {
-				path: path.join( __dirname, 'wwwroot', 'dist', '[name]-manifest.json' ),
+				path: path.join( __dirname, 'Root', 'exe', '[name].manifest.json' ),
 				name: '[name]_[hash]'
 			} )
-		].concat( isDevBuild ? [ ] : [ new webpack.optimize.UglifyJsPlugin( ) ] )
+		].concat( develop ? [ ] : [ new webpack.optimize.UglifyJsPlugin( ) ] ),
+		output: { path: path.join( __dirname, 'Root', 'exe' ) }
 	} )
 	
 	
-	const serverBundleConfig = merge( sharedConfig, {
+	const server = merge( meta, {
 		target: 'node',
+		entry: { vendor: modules.concat( [ 'aspnet-prerendering' ] ) },
 		resolve: { mainFields: [ 'main' ] },
-		entry: { vendor: allModules.concat( [ 'aspnet-prerendering' ] ) },
-		output: { path: path.join( __dirname, 'ClientApp', 'dist' ), libraryTarget: 'commonjs2', },
 		module: {
 			rules: [
-				{ test: /\.css(\?|$)/, use: [ 'to-string-loader', isDevBuild ? 'css-loader' : 'css-loader?minimize' ] }
+				{ test: /\.css(\?|$)/, use: [ 'to-string-loader', develop ? 'css-loader' : 'css-loader?minimize' ] }
 			]
 		},
 		plugins: [
 			new webpack.DllPlugin( {
-				path: path.join( __dirname, 'ClientApp', 'dist', '[name]-manifest.json' ),
+				path: path.join( __dirname, 'Angular', 'exe', '[name].manifest.json' ),
 				name: '[name]_[hash]'
 			} )
-		].concat( isDevBuild ? [ ] : [ new webpack.optimize.UglifyJsPlugin( ) ] )
+		].concat( develop ? [ ] : [ new webpack.optimize.UglifyJsPlugin( ) ] ),
+		output: { path: path.join( __dirname, 'Angular', 'exe' ), libraryTarget: 'commonjs2', }
 	} )
 	
 	
-	return [ clientBundleConfig, serverBundleConfig ]
+	return [ browser, server ]
 	
 }
+
 
 

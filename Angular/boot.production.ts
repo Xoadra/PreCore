@@ -10,7 +10,7 @@ import { enableProdMode } from '@angular/core'
 import { createServerRenderer } from 'aspnet-prerendering'
 import { ngAspnetCoreEngine, IEngineOptions, createTransferScript } from '@nguniversal/aspnetcore-engine'
 
-import { AppModule } from './app/app.server'
+const { NetCoreModuleNgFactory } = require( './app/app.server.ngfactory' )
 
 
 
@@ -20,7 +20,7 @@ enableProdMode( )
 export default createServerRenderer( params => {
 	const setupOptions: IEngineOptions = {
 		appSelector: '<app-root></app-root>',
-		ngModule: AppModule,
+		ngModule: NetCoreModuleNgFactory,
 		request: params,
 		providers: [ ]
 	}

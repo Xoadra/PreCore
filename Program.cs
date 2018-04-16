@@ -14,6 +14,7 @@ namespace PreCore {
 			var host = new WebHostBuilder( )
 				.UseKestrel( )
 				.UseContentRoot( Directory.GetCurrentDirectory( ) )
+				.UseWebRoot( "Root" )
 				.UseIISIntegration( )
 				.UseStartup<Startup>( )
 				.Build( );
@@ -22,6 +23,5 @@ namespace PreCore {
 		
     }
 }
-
 
 

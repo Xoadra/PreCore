@@ -3,9 +3,8 @@
 
 
 import { NgModule } from '@angular/core'
-import { ServerModule } from '@angular/platform-server'
 
-import { RootModule } from './app.module'
+import { MetaModule } from './app.module'
 
 import { AppComponent } from './app.component'
 
@@ -13,13 +12,12 @@ import { AppComponent } from './app.component'
 
 @NgModule( {
 	imports: [
-		RootModule,
-		ServerModule
+		MetaModule
 	],
 	bootstrap: [ AppComponent ]
 } )
 
 
-export class AppModule {  }
+export class AngularModule {  }
 
 

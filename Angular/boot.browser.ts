@@ -8,14 +8,14 @@ import './polyfills'
 import { enableProdMode } from '@angular/core'
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 
-import { AppModule } from './app/app.browser'
+import { AngularModule } from './app/app.browser'
 
 
 
 enableProdMode( )
 
 
-const godmod = platformBrowserDynamic( ).bootstrapModule( AppModule )
+const godmod = platformBrowserDynamic( ).bootstrapModule( AngularModule )
 
 
 

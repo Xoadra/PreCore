@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,9 @@ using Microsoft.Extensions.Logging;
 
 namespace PreCore {
 	public class Startup {
+		
+		public IConfiguration Configuration { get; }
+		
 		
 		public Startup( IHostingEnvironment env ) {
 			var builder = new ConfigurationBuilder( )
@@ -22,11 +26,15 @@ namespace PreCore {
 			Configuration = builder.Build( );
 		}
 		
-		public IConfiguration Configuration { get; }
 		
 		public void ConfigureServices( IServiceCollection services ) {
 			services.AddMvc( );
 			services.AddNodeServices( );
+			services.Configure<RazorViewEngineOptions>( razor => {
+				razor.ViewLocationFormats.Clear( );
+				razor.ViewLocationFormats.Add( "~/View/{1}/{0}" + RazorViewEngine.ViewExtension );
+				razor.ViewLocationFormats.Add( "~/View/Shared/{0}" + RazorViewEngine.ViewExtension );
+			} );
 		}
 		
         public void Configure( IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory ) {
