@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+
+
+<html>
+	
+	<head>
+		<base href="@( Url.Content( "~/" ) )" />
+		<title> @ViewData[ "Title" ] </title>
+		
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		@Html.Raw( ViewData[ "Meta" ] )
+		@Html.Raw( ViewData[ "Links" ] )
+		
+		@Html.Raw( ViewData[ "Styles" ] )
+	</head>
+	
+	<body>
+		@RenderBody( )
+		
+		@Html.Raw( ViewData[ "TransferData" ] )
+		@Html.Raw( ViewData[ "Scripts" ] )
+		
+		@RenderSection( "Scripts", required: false )
+	</body>
+	
+</html>
+
+
+
