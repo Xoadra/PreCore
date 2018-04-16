@@ -2,7 +2,7 @@
 
 
 
-namespace PreCore.Models {
+namespace PreCore.Prerender {
 	public class IRequest {
 		
 		public object cookies { get; set; }

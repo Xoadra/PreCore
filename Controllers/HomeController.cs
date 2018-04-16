@@ -16,13 +16,13 @@ namespace PreCore.Controllers {
 		[ HttpGet ]
 		public async Task<IActionResult> Index( ) {
 			var pre = await Request.Prerender( );
-			ViewData[ "SpaHtml" ] = pre.Html;
+			ViewData[ "Html" ] = pre.Html;
 			ViewData[ "Title" ] = pre.Globals[ "title" ];
-			ViewData[ "Styles" ] = pre.Globals[ "styles" ];
-			ViewData[ "Scripts" ] = pre.Globals[ "scripts" ];
 			ViewData[ "Meta" ] = pre.Globals[ "meta" ];
 			ViewData[ "Links" ] = pre.Globals[ "links" ];
-			ViewData[ "TransferData" ] = pre.Globals[ "transferData" ];
+			ViewData[ "Styles" ] = pre.Globals[ "styles" ];
+			ViewData[ "Data" ] = pre.Globals[ "transferData" ];
+			ViewData[ "Scripts" ] = pre.Globals[ "scripts" ];
 			return View( );
 		}
 		

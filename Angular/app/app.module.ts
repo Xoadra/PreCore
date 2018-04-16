@@ -10,7 +10,7 @@ import { RouteModule } from './app.routing'
 
 import { AppComponent } from './app.component'
 
-import { BestService } from './services/best.service'
+import { WebService } from './services/web.service'
 
 
 
@@ -21,7 +21,7 @@ import { BestService } from './services/best.service'
 		RouteModule,
 		HttpClientModule
 	],
-	providers: [ BestService ],
+	providers: [ WebService ],
 	bootstrap: [ AppComponent ]
 } )
 

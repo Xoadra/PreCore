@@ -3,7 +3,8 @@
 
 
 import { Component, OnInit } from '@angular/core'
-import { Meta } from '@angular/platform-browser'
+
+import { WebService } from './services/web.service'
 
 
 
@@ -16,10 +17,11 @@ import { Meta } from '@angular/platform-browser'
 
 export class AppComponent implements OnInit {
 	
-	title = 'PreCore'
+	name: string = 'PreCore'
+	about: string = 'An Isomorphic, Server Prerendered Angular & ASP.NET Core Web App!'
 	
 	
-	constructor( private _meta: Meta ) {  }
+	constructor( private _web: WebService ) {  }
 	
 	
 	ngOnInit( ) {  }

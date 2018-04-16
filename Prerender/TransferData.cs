@@ -2,7 +2,7 @@
 
 
 
-namespace PreCore.Models {
+namespace PreCore.Prerender {
 	public class TransferData {
 		
 		public dynamic request { get; set; }

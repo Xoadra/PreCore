@@ -3,8 +3,7 @@
 
 
 import { Component, OnInit } from '@angular/core'
-
-import { BestService } from '../services/best.service'
+import { Title, Meta, MetaDefinition } from '@angular/platform-browser'
 
 
 
@@ -17,11 +16,22 @@ import { BestService } from '../services/best.service'
 
 export class PageComponent implements OnInit {
 	
-	constructor( private _best: BestService ) {  }
+	private title: string = 'PreCore | Page'
+	private meta: MetaDefinition = {
+		name: 'description',
+		content: 'I like pages.  They\'re so great!  I love them.'
+	}
 	
 	
-	ngOnInit( ) {  }
+	constructor( private _title: Title, private _meta: Meta ) {  }
+	
+	
+	ngOnInit( ) {
+		this._title.setTitle( this.title )
+		this._meta.updateTag( this.meta )
+	}
 	
 }
+
 
 

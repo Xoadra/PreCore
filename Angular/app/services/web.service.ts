@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http'
 @Injectable( )
 
 
-export class BestService {
+export class WebService {
 	
 	constructor( private _http: HttpClient ) {  }
 	
