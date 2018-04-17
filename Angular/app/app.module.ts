@@ -4,11 +4,13 @@
 
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
+import { HttpClientModule } from '@angular/common/http'
 
 import { RouteModule } from './app.routing'
 
 import { AppComponent } from './app.component'
 
+import { DataService } from './services/data.service'
 import { WebService } from './services/web.service'
 
 
@@ -17,9 +19,13 @@ import { WebService } from './services/web.service'
 	declarations: [ AppComponent ],
 	imports: [
 		BrowserModule.withServerTransition( { appId: 'app-id' } ),
-		RouteModule
+		RouteModule,
+		HttpClientModule
 	],
-	providers: [ WebService ],
+	providers: [
+		DataService,
+		WebService
+	],
 	bootstrap: [ AppComponent ]
 } )
 

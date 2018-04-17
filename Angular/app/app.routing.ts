@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
 import { MainComponent } from './main/main.component'
-import { PageComponent } from './page/page.component'
+import { HttpComponent } from './http/http.component'
 
 
 
@@ -22,12 +22,12 @@ const routes: Routes = [
 		}
 	},
 	{
-		path: 'page', component: PageComponent,
+		path: 'http', component: HttpComponent,
 		data: {
-			title: 'Page',
+			title: 'Http',
 			meta: [ {
 				name: 'description',
-				content: 'I like pages.  They\'re so great!  I love them.'
+				content: 'Make an API call to the ASP.NET Core backend to return some data within an isomorphic application!'
 			} ]
 		}
 	}
@@ -37,7 +37,7 @@ const routes: Routes = [
 @NgModule( {
 	declarations: [
 		MainComponent,
-		PageComponent
+		HttpComponent
 	],
 	imports: [ RouterModule.forRoot( routes ) ],
 	exports: [ RouterModule ]
