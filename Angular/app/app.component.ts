@@ -3,6 +3,7 @@
 
 
 import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 
 import { WebService } from './services/web.service'
 
@@ -21,11 +22,14 @@ export class AppComponent implements OnInit {
 	about: string = 'An Isomorphic, Server Prerendered Angular & ASP.NET Core Web App!'
 	
 	
-	constructor( private _web: WebService ) {  }
+	constructor( private _route: Router, private _web: WebService ) {  }
 	
 	
-	ngOnInit( ) {  }
+	ngOnInit( ) {
+		this._web.injectData( this._route, this.name )
+	}
 	
 }
+
 
 
