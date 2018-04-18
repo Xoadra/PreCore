@@ -2,7 +2,6 @@
 
 
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -29,9 +28,9 @@ namespace PreCore.Prerender {
 			INodeServices node = trans.HttpContext.RequestServices.GetRequiredService<INodeServices>( );
 			IHostingEnvironment zone = trans.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>( );
 			IHttpRequestFeature item = trans.HttpContext.Features.Get<IHttpRequestFeature>( );
-			String root = zone.ContentRootPath;
-			String path = item.RawTarget;
-			String url = $"{ trans.Scheme }://{ trans.Host }{ path }";
+			string root = zone.ContentRootPath;
+			string path = item.RawTarget;
+			string url = $"{ trans.Scheme }://{ trans.Host }{ path }";
 			TransferData data = new TransferData( );
 			data.request = trans.Decode( );
 			data.thisCameFromDotNET = "The server beckons thee!!!";
@@ -43,5 +42,6 @@ namespace PreCore.Prerender {
 		
 	}
 }
+
 
 

@@ -24,10 +24,10 @@ export class HttpComponent implements OnInit {
 	
 	
 	ngOnInit( ) {
-		this.data = this._data.getData( ) || ''
+		this._data.getData( ).subscribe( data => this.data = data )
+		console.log( 'Yay, backend data!!!' )
 	}
 	
 }
-
 
 
