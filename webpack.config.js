@@ -6,9 +6,9 @@ const webpack = require( 'webpack' )
 const merge = require( 'webpack-merge' )
 const path = require( 'path' )
 
-const AngularCompilerPlugin = require( '@ngtools/webpack' ).AngularCompilerPlugin
+const ExtractTextPlugin = require( 'extract-text-webpack-plugin' )
 const CheckerPlugin = require( 'awesome-typescript-loader' ).CheckerPlugin
-const BundleAnalyzerPlugin = require( 'webpack-bundle-analyzer' ).BundleAnalyzerPlugin
+const AngularCompilerPlugin = require( '@ngtools/webpack' ).AngularCompilerPlugin
 
 
 
@@ -33,10 +33,14 @@ module.exports = ( env ) => {
 				},
 				{ test: /\.html$/, use: 'html-loader?minimize=false' },
 				{ test: /\.css$/, use: [ 'to-string-loader', develop ? 'css-loader' : 'css-loader?minimize' ] },
+				/* {
+					test: /\.css$/,
+					use: ExtractTextPlugin.extract( [ develop ? 'css-loader' : 'css-loader?minimize' ] )
+				}, */
 				{ test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' },
 			]
 		},
-		plugins: [ new CheckerPlugin( ) ],
+		plugins: [ new CheckerPlugin( ), new ExtractTextPlugin( '[name].bundle.css' ) ],
 		output: { filename: '[name].bundle.js', publicPath: 'exe/' }
 	}
 	

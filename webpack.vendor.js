@@ -40,11 +40,7 @@ module.exports = ( env ) => {
 	const meta = {
 		stats: { modules: false },
 		resolve: { extensions: [ '.js' ] },
-		module: {
-			rules: [
-				{ test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' }
-			]
-		},
+		module: { rules: [ { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' } ] },
 		plugins: [
 			new CleanWebpackPlugin( [ 'Root/exe', 'Angular/exe' ] ),
 			new webpack.ContextReplacementPlugin( /\@angular\b.*\b(bundles|linker)/, path.join( __dirname, './Angular' ) ),
