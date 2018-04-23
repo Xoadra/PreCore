@@ -1,0 +1,35 @@
+
+
+
+
+h1 {
+	font-variant: small-caps;
+	text-align: center;
+	margin: 75px 0 0;
+}
+
+h2 {
+	text-align: center;
+	margin: 20px 0 0;
+}
+
+nav {
+	text-align: center;
+	background: black;
+	color: white;
+	padding: 25px;
+	margin: 40px 0 0;
+}
+
+a {
+	display: inline-block;
+	font-size: 20px;
+	font-variant: small-caps;
+	text-transform: uppercase;
+    text-decoration: none;
+	color: #58a5fb;
+	margin: 0 75px;
+}
+
+
+

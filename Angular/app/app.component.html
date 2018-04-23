@@ -2,13 +2,7 @@
 
 
 
-<h1> {{ name }} </h1>
-<h2> {{ about }} </h2>
-
-<nav>
-	<a [routerLink]="[ '/' ]"> Home </a>
-	<a [routerLink]="[ '/http' ]"> Http </a>
-</nav>
+<app-global [title]="name"></app-global>
 
 <router-outlet></router-outlet>
 

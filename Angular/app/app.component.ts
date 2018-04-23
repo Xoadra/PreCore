@@ -18,8 +18,7 @@ import { WebService } from './services/web.service'
 
 export class AppComponent implements OnInit {
 	
-	name: string = 'PreCore'
-	about: string = 'An Isomorphic, Server Prerendered Angular & ASP.NET Core Web App!'
+	private name: string = 'PreCore'
 	
 	
 	constructor( private _route: Router, private _web: WebService ) {  }
@@ -30,6 +29,5 @@ export class AppComponent implements OnInit {
 	}
 	
 }
-
 
 

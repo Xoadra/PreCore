@@ -15,6 +15,7 @@ const AngularCompilerPlugin = require( '@ngtools/webpack' ).AngularCompilerPlugi
 module.exports = ( env ) => {
 	
 	const develop = !( env && env.prod )
+	const CssPlugin = new ExtractTextPlugin( 'styles.bundle.css' )
 	
 	
 	const meta = {
@@ -40,7 +41,7 @@ module.exports = ( env ) => {
 				{ test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' },
 			]
 		},
-		plugins: [ new CheckerPlugin( ), new ExtractTextPlugin( '[name].bundle.css' ) ],
+		plugins: [ new CheckerPlugin( ), CssPlugin ],
 		output: { filename: '[name].bundle.js', publicPath: 'exe/' }
 	}
 	
@@ -103,5 +104,6 @@ module.exports = ( env ) => {
 	return [ browser, server ]
 	
 }
+
 
 

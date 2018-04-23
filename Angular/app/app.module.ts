@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { RouteModule } from './app.routing'
 
 import { AppComponent } from './app.component'
+import { GlobalComponent } from './global/global.component'
 
 import { DataService } from './services/data.service'
 import { WebService } from './services/web.service'
@@ -16,9 +17,12 @@ import { WebService } from './services/web.service'
 
 
 @NgModule( {
-	declarations: [ AppComponent ],
+	declarations: [
+		AppComponent,
+		GlobalComponent
+	],
 	imports: [
-		BrowserModule.withServerTransition( { appId: 'app-id' } ),
+		BrowserModule.withServerTransition( { appId: 'app' } ),
 		RouteModule,
 		HttpClientModule
 	],
