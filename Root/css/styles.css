@@ -6,4 +6,16 @@ body {
 	margin: 0;
 }
 
+section {
+	display: inline-block;
+	text-align: center;
+	height: 250px;
+	width: 100%;
+}
+
+h3 {
+	margin: 40px 0;
+}
+
+
 
