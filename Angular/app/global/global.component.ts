@@ -15,10 +15,10 @@ import { Component, Input } from '@angular/core'
 
 export class GlobalComponent {
 	
-	@Input( ) private title: string
+	@Input( ) title: string
 	
 	
-	private about: string = 'An Isomorphic, Server Prerendered Angular & ASP.NET Core Web App!'
+	about: string = 'An Isomorphic, Server Prerendered Angular & ASP.NET Core Web App!'
 	
 }
 

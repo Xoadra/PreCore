@@ -17,7 +17,7 @@ import { DataService } from '../services/data.service'
 
 export class HttpComponent implements OnInit {
 	
-	private data: string
+	data: string
 	
 	
 	constructor( private _data: DataService ) {  }

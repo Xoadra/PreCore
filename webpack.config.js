@@ -15,7 +15,6 @@ const AngularCompilerPlugin = require( '@ngtools/webpack' ).AngularCompilerPlugi
 module.exports = ( env ) => {
 	
 	const develop = !( env && env.prod )
-	const CssPlugin = new ExtractTextPlugin( 'styles.bundle.css' )
 	
 	
 	const meta = {
@@ -36,20 +35,54 @@ module.exports = ( env ) => {
 				{ test: /\.css$/, use: [ 'to-string-loader', develop ? 'css-loader' : 'css-loader?minimize' ] },
 				/* {
 					test: /\.css$/,
-					use: ExtractTextPlugin.extract( [ develop ? 'css-loader' : 'css-loader?minimize' ] )
+					exclude: path.resolve( __dirname, 'app' ),
+					use: [ 'to-string-loader' ].concat( ExtractTextPlugin.extract( {
+						fallback: 'style-loader',
+						use: develop
+						? 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+						: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]&minimize'
+					} ) )
+				},
+				{
+					test: /\.css$/,
+					include: path.resolve( __dirname, 'app' ),
+					use: develop
+						? 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+						: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]&minimize'
 				}, */
 				{ test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' },
 			]
 		},
-		plugins: [ new CheckerPlugin( ), CssPlugin ],
+		plugins: [ new CheckerPlugin( ) ],
 		output: { filename: '[name].bundle.js', publicPath: 'exe/' }
 	}
 	
 	
 	const browser = merge( meta, {
-		node: { fs: "empty" },
+		node: { fs: 'empty' },
 		entry: { browser: './Angular/boot.browser.ts' },
 		devtool: develop ? 'cheap-eval-source-map' : false,
+		/* module: {
+			rules: [
+				{
+					test: /\.css$/,
+					exclude: path.resolve( __dirname, 'app' ),
+					use: ExtractTextPlugin.extract( {
+						fallback: 'style-loader',
+						use: develop
+						? 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+						: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]&minimize'
+					} )
+				},
+				{
+					test: /\.css$/,
+					include: path.resolve( __dirname, 'app' ),
+					use: develop
+						? 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+						: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]&minimize'
+				},
+			]
+		}, */
 		plugins: [
 			new webpack.DllReferencePlugin( {
 				context: __dirname,
@@ -78,6 +111,9 @@ module.exports = ( env ) => {
 		entry: { server: develop ? './Angular/boot.server.ts' : './Angular/boot.production.ts' },
 		resolve: { mainFields: [ 'main' ] },
 		devtool: develop ? 'inline-source-map' : false,
+		/* module: {
+			rules: [ { test: /\.css$/, use: [ 'to-string-loader', develop ? 'css-loader' : 'css-loader?minimize' ] } ]
+		}, */
 		plugins: [
 			new webpack.DllReferencePlugin( {
 				context: __dirname,

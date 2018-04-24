@@ -40,7 +40,19 @@ module.exports = ( env ) => {
 	const meta = {
 		stats: { modules: false },
 		resolve: { extensions: [ '.js' ] },
-		module: { rules: [ { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' } ] },
+		module: {
+			rules: [
+				{ test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' },
+				/* {
+					test: /\.css(\?|$)/,
+					use: [ 'to-string-loader' ].concat( ExtractTextPlugin.extract( [
+						develop
+						 ? 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+						 : 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]&minimize'
+					] ) )
+				} */
+			]
+		},
 		plugins: [
 			new CleanWebpackPlugin( [ 'Root/exe', 'Angular/exe' ] ),
 			new webpack.ContextReplacementPlugin( /\@angular\b.*\b(bundles|linker)/, path.join( __dirname, './Angular' ) ),
@@ -55,10 +67,7 @@ module.exports = ( env ) => {
 		entry: { vendor: develop ? modules : polyfills },
 		module: {
 			rules: [
-				{
-					test: /\.css(\?|$)/,
-					use: ExtractTextPlugin.extract( { use: develop ? 'css-loader' : 'css-loader?minimize' } )
-				}
+				{ test: /\.css(\?|$)/, use: ExtractTextPlugin.extract( develop ? 'css-loader' : 'css-loader?minimize' ) }
 			]
 		},
 		plugins: [
@@ -94,6 +103,5 @@ module.exports = ( env ) => {
 	return [ browser, server ]
 	
 }
-
 
 

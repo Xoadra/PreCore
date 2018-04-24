@@ -19,7 +19,7 @@ import { WebService } from './services/web.service'
 
 export class AppComponent implements OnInit {
 	
-	private name: string = 'PreCore'
+	name: string = 'PreCore'
 	
 	
 	constructor( private _route: Router, private _web: WebService ) {  }
