@@ -54,7 +54,7 @@ module.exports = ( env ) => {
 			]
 		},
 		plugins: [ new CheckerPlugin( ) ],
-		output: { filename: '[name].bundle.js', publicPath: 'exe/' }
+		output: { filename: '[name].bundle.js', publicPath: '/exe/' }
 	}
 	
 	

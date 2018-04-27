@@ -12,7 +12,15 @@ import { AngularModule } from './app/app.browser'
 
 
 
-enableProdMode( )
+if ( module[ 'hot' ] ) {
+	module[ 'hot' ].accept( )
+	module[ 'hot' ].dispose( ( ) => {
+		//godmod.then( ancient => ancient.destroy( ) )
+	} )
+}
+else {
+	enableProdMode( )
+}
 
 
 const godmod = platformBrowserDynamic( ).bootstrapModule( AngularModule )

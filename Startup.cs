@@ -5,8 +5,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 
@@ -19,7 +20,7 @@ namespace PreCore {
 		
 		public Startup( IHostingEnvironment env ) {
 			var builder = new ConfigurationBuilder( )
-				.SetBasePath( env.ContentRootPath)
+				.SetBasePath( env.ContentRootPath )
 				.AddJsonFile( "appsettings.json", optional: true, reloadOnChange: true )
 				.AddJsonFile( $"appsettings.{ env.EnvironmentName }.json", optional: true )
 				.AddEnvironmentVariables( );
@@ -41,7 +42,13 @@ namespace PreCore {
 			loggerFactory.AddConsole( Configuration.GetSection( "Logging" ) );
 			loggerFactory.AddDebug( );
 			app.UseStaticFiles( );
-			if ( env.IsDevelopment( ) ) { app.UseDeveloperExceptionPage( ); }
+			if ( env.IsDevelopment( ) ) {
+				app.UseDeveloperExceptionPage( );
+				app.UseWebpackDevMiddleware( new WebpackDevMiddlewareOptions {
+					HotModuleReplacement = true,
+					HotModuleReplacementEndpoint = "/exe/"
+				} );
+			}
 			else { app.UseExceptionHandler( "/Home/Error" ); }
 			app.UseMvc( routes => {
 				routes.MapRoute( name: "default", template: "{controller=Home}/{action=Index}/{id?}" );
@@ -51,5 +58,6 @@ namespace PreCore {
 		
 	}
 }
+
 
 

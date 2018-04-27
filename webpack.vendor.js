@@ -54,12 +54,11 @@ module.exports = ( env ) => {
 			]
 		},
 		plugins: [
-			new CleanWebpackPlugin( [ 'Root/exe', 'Angular/exe' ] ),
 			new webpack.ContextReplacementPlugin( /\@angular\b.*\b(bundles|linker)/, path.join( __dirname, './Angular' ) ),
 			new webpack.ContextReplacementPlugin( /(.+)?angular(\\|\/)core(.+)?/, path.join( __dirname, './Angular' ) ),
 			new webpack.IgnorePlugin( /^vertx$/ )
-		],
-		output: { filename: '[name].bundle.js', publicPath: 'exe/', library: '[name]_[hash]' }
+		].concat( develop ? [ ] : [ new CleanWebpackPlugin( [ 'Root/exe', 'Angular/exe' ] ) ] ),
+		output: { filename: '[name].bundle.js', publicPath: '/exe/', library: '[name]_[hash]' }
 	}
 	
 	
@@ -103,5 +102,6 @@ module.exports = ( env ) => {
 	return [ browser, server ]
 	
 }
+
 
 
