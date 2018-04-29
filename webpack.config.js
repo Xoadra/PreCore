@@ -59,7 +59,7 @@ module.exports = ( env ) => {
 		},
 		// CheckerPlugin supposedly does async error reporting, presumably while bundling
 		plugins: [ new CheckerPlugin( ) ],
-		output: { filename: '[name].bundle.js', publicPath: '/exe/' }
+		output: { filename: '[name].bundle.js' }
 	}
 	
 	
@@ -93,13 +93,13 @@ module.exports = ( env ) => {
 			// Position manifest referencing to the json file output via the vendor configuration
 			new webpack.DllReferencePlugin( {
 				context: __dirname,
-				manifest: require( './Root/exe/vendor.manifest.json' )
+				manifest: require( './Root/vendor.manifest.json' )
 			} )
 		].concat( develop ? [
 			// Just create inline source maps instead by removing the filename option below
 			new webpack.SourceMapDevToolPlugin( {
 				filename: '[file].map',
-				moduleFilenameTemplate: path.relative( './Root/exe', '[resourcePath]' )
+				moduleFilenameTemplate: path.relative( './Root', '[resourcePath]' )
 			} )
 		] : [
 			// Unknown UglifyJsPlugin and AngularCompilerPlugin settings need investigation
@@ -111,7 +111,7 @@ module.exports = ( env ) => {
 			} ),
 			new webpack.optimize.UglifyJsPlugin( { output: { ascii_only: true, } } ),
 		] ),
-		output: { path: path.join( __dirname, './Root/exe' ) }
+		output: { path: path.join( __dirname, 'Root' ), publicPath: '/Root/' }
 	} )
 	
 	
@@ -129,7 +129,7 @@ module.exports = ( env ) => {
 			// Direct foreign dependency lookups at the backend's vendor manifest json file
 			new webpack.DllReferencePlugin( {
 				context: __dirname,
-				manifest: require( './Angular/exe/vendor.manifest.json' ),
+				manifest: require( './Node/vendor.manifest.json' ),
 				sourceType: 'commonjs2',
 				name: './vendor.bundle'
 			} )
@@ -148,7 +148,7 @@ module.exports = ( env ) => {
 			} )
 		] ),
 		// LibraryTarget setting's use is unknown and necessitates additional investigation
-		output: { libraryTarget: 'commonjs', path: path.join( __dirname, './Angular/exe' ) }
+		output: { path: path.join( __dirname, 'Node' ), publicPath: '/Node/', libraryTarget: 'commonjs' }
 	} )
 	
 	

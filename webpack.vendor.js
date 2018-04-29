@@ -56,9 +56,9 @@ module.exports = ( env ) => {
 			new webpack.ContextReplacementPlugin( /(.+)?angular(\\|\/)core(.+)?/, path.join( __dirname, './Angular' ) ),
 			// Workaround for an unknown plugin to resolve a particular unidentified issue 
 			new webpack.IgnorePlugin( /^vertx$/ )
-		].concat( develop ? [ ] : [ new CleanWebpackPlugin( [ 'Root/exe', 'Angular/exe' ] ) ] ),
+		].concat( develop ? [ ] : [ new CleanWebpackPlugin( [ 'Root', 'Node' ] ) ] ),
 		// Library setting is unknown and necessitates further investigation into its use
-		output: { filename: '[name].bundle.js', publicPath: '/exe/', library: '[name]_[hash]' }
+		output: { filename: '[name].bundle.js', library: '[name]_[hash]' }
 	}
 	
 	
@@ -73,11 +73,11 @@ module.exports = ( env ) => {
 			new ExtractTextPlugin( 'vendor.bundle.css' ),
 			// Declare the vendor manifest json file name and learn the name setting's use
 			new webpack.DllPlugin( {
-				path: path.join( __dirname, 'Root', 'exe', '[name].manifest.json' ),
+				path: path.join( __dirname, 'Root', '[name].manifest.json' ),
 				name: '[name]_[hash]'
 			} )
 		].concat( develop ? [ ] : [ new webpack.optimize.UglifyJsPlugin( ) ] ),
-		output: { path: path.join( __dirname, 'Root', 'exe' ) }
+		output: { path: path.join( __dirname, 'Root' ), publicPath: '/Root/' }
 	} )
 	
 	
@@ -95,11 +95,11 @@ module.exports = ( env ) => {
 		plugins: [
 			// Name the generated vendor manifest json file and look up the name setting
 			new webpack.DllPlugin( {
-				path: path.join( __dirname, 'Angular', 'exe', '[name].manifest.json' ),
+				path: path.join( __dirname, 'Node', '[name].manifest.json' ),
 				name: '[name]_[hash]'
 			} )
 		].concat( develop ? [ ] : [ new webpack.optimize.UglifyJsPlugin( ) ] ),
-		output: { path: path.join( __dirname, 'Angular', 'exe' ), libraryTarget: 'commonjs2', }
+		output: { path: path.join( __dirname, 'Node' ), publicPath: '/Node/', libraryTarget: 'commonjs2' }
 	} )
 	
 	
