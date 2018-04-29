@@ -48,7 +48,10 @@ namespace PreCore {
 			if ( env.IsDevelopment( ) ) {
 				app.UseDeveloperExceptionPage( );
 				// Webpack middleware setup integration with backend
-				app.UseWebpackDevMiddleware( new WebpackDevMiddlewareOptions { HotModuleReplacement = true } );
+				// Fails to operate properly when upgraded to Webpack 4
+				/* app.UseWebpackDevMiddleware( new WebpackDevMiddlewareOptions {
+					HotModuleReplacement = true
+				} ); */
 			}
 			else { app.UseExceptionHandler( "/Home/Error" ); }
 			app.UseMvc( routes => {
@@ -59,5 +62,6 @@ namespace PreCore {
 		
 	}
 }
+
 
 

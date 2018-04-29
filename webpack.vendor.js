@@ -6,7 +6,7 @@ const webpack = require( 'webpack' )
 const merge = require( 'webpack-merge' )
 const path = require( 'path' )
 
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' )
+const ExtractTextPlugin = require( 'mini-css-extract-plugin' )
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' )
 
 
@@ -66,7 +66,7 @@ module.exports = ( env ) => {
 		entry: { vendor: develop ? modules : polyfills },
 		module: {
 			rules: [
-				{ test: /\.css(\?|$)/, use: ExtractTextPlugin.extract( develop ? 'css-loader' : 'css-loader?minimize' ) }
+				{ test: /\.css(\?|$)/, use: [ ExtractTextPlugin.loader, develop ? 'css-loader' : 'css-loader?minimize' ] }
 			]
 		},
 		plugins: [

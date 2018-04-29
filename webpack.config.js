@@ -6,7 +6,7 @@ const webpack = require( 'webpack' )
 const merge = require( 'webpack-merge' )
 const path = require( 'path' )
 
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' )
+const ExtractTextPlugin = require( 'mini-css-extract-plugin' )
 const CheckerPlugin = require( 'awesome-typescript-loader' ).CheckerPlugin
 const AngularCompilerPlugin = require( '@ngtools/webpack' ).AngularCompilerPlugin
 
@@ -30,7 +30,9 @@ module.exports = ( env ) => {
 				{
 					test: /\.ts$/,
 					use: develop ? [
-						'awesome-typescript-loader?silent=true',
+						'ts-loader?silent=true',
+						// Broken via static injection errors with Webpack 4 during server boot up
+						/* 'awesome-typescript-loader?silent=true', */
 						'angular2-template-loader',
 						'angular2-router-loader'
 					] : '@ngtools/webpack'
@@ -58,7 +60,8 @@ module.exports = ( env ) => {
 			]
 		},
 		// CheckerPlugin supposedly does async error reporting, presumably while bundling
-		plugins: [ new CheckerPlugin( ) ],
+		// Nullified given Webpack 4 feature depreciations and awesome typescript loader
+		plugins: [ /* new CheckerPlugin( ) */ ],
 		output: { filename: '[name].bundle.js' }
 	}
 	
@@ -156,6 +159,5 @@ module.exports = ( env ) => {
 	return [ browser, server ]
 	
 }
-
 
 
