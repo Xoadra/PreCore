@@ -12,10 +12,12 @@ namespace PreCore.Controllers {
 		[ HttpGet ]
 		[ Route( "api" ) ]
 		public string Api( ) {
+			// Api test returning a string called by the frontend
 			return "Stop calling me!!!";
 		}
 		
 	}
 }
+
 
 

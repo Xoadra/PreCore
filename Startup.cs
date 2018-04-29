@@ -30,9 +30,12 @@ namespace PreCore {
 		
 		public void ConfigureServices( IServiceCollection services ) {
 			services.AddMvc( );
+			// Node server activation for prerendering single page apps
 			services.AddNodeServices( );
 			services.Configure<RazorViewEngineOptions>( razor => {
+				// Overwrite the razor view engine's default view location
 				razor.ViewLocationFormats.Clear( );
+				// Identify custom path names for the razor view engine
 				razor.ViewLocationFormats.Add( "~/View/{1}/{0}" + RazorViewEngine.ViewExtension );
 				razor.ViewLocationFormats.Add( "~/View/Shared/{0}" + RazorViewEngine.ViewExtension );
 			} );
@@ -44,6 +47,7 @@ namespace PreCore {
 			app.UseStaticFiles( );
 			if ( env.IsDevelopment( ) ) {
 				app.UseDeveloperExceptionPage( );
+				// Webpack middleware setup integration with backend
 				app.UseWebpackDevMiddleware( new WebpackDevMiddlewareOptions {
 					HotModuleReplacement = true,
 					HotModuleReplacementEndpoint = "/exe/"

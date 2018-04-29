@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http'
 
 export class DataService {
 	
+	// Object instantiation for identifying http data
 	private type: object = { responseType: 'text' }
 	
 	
@@ -20,6 +21,7 @@ export class DataService {
 	
 	getData( ) {
 		console.log( 'Go get the data!!!' )
+		// Tell http to set response data to a string
 		return this._http.get<string>( 'api', this.type )
 	}
 	

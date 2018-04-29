@@ -15,6 +15,7 @@ namespace PreCore.Controllers {
 		
 		[ HttpGet ]
 		public async Task<IActionResult> Index( ) {
+			// Setup and execute server-side app prerendering
 			var pre = await Request.Prerender( );
 			ViewData[ "Html" ] = pre.Html;
 			ViewData[ "Title" ] = pre.Globals[ "title" ];
@@ -33,5 +34,6 @@ namespace PreCore.Controllers {
 		
     }
 }
+
 
 

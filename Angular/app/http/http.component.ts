@@ -24,10 +24,12 @@ export class HttpComponent implements OnInit {
 	
 	
 	ngOnInit( ) {
+		// Verify backend access within an isomorphic app
 		this._data.getData( ).subscribe( data => this.data = data )
 		console.log( 'Yay, backend data!!!' )
 	}
 	
 }
+
 
 

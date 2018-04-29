@@ -11,33 +11,30 @@ const CleanWebpackPlugin = require( 'clean-webpack-plugin' )
 
 
 
-const vendors = [
-	'@angular/animations',
-	'@angular/common',
-	'@angular/compiler',
-	'@angular/core',
-	'@angular/forms',
-	'@angular/http',
-	'@angular/platform-browser',
-	'@angular/platform-browser-dynamic',
-	'@angular/router',
-	'zone.js'
-]
-const polyfills = [
-	'core-js',
-	// 'es6-promise',
-	// 'es6-shim',
-	'event-source-polyfill'
-]
-const modules = vendors.concat( polyfills )
-
-
+// Module exports converted from object to arrow function to use environment variables
 module.exports = ( env ) => {
 	
+	// Environment identity set to a returned boolean based on the configured environment
 	const develop = !( env && env.prod )
+	// Temporarily placed vendor code library lists for testing entry points using the DllPlugin
+	const vendors = [
+		'@angular/animations',
+		'@angular/common',
+		'@angular/compiler',
+		'@angular/core',
+		'@angular/forms',
+		'@angular/http',
+		'@angular/platform-browser',
+		'@angular/platform-browser-dynamic',
+		'@angular/router',
+		'zone.js'
+	]
+	const polyfills = [ 'core-js', /* 'es6-promise', 'es6-shim', */ 'event-source-polyfill' ]
+	const modules = vendors.concat( polyfills )
 	
 	
 	const meta = {
+		// Options for what build information is displayed in the terminal while bundling files
 		stats: { modules: false },
 		resolve: { extensions: [ '.js' ] },
 		module: {
@@ -54,10 +51,13 @@ module.exports = ( env ) => {
 			]
 		},
 		plugins: [
+			// Helps fix critical dependencies warnings when compiling Angular vendor code
 			new webpack.ContextReplacementPlugin( /\@angular\b.*\b(bundles|linker)/, path.join( __dirname, './Angular' ) ),
 			new webpack.ContextReplacementPlugin( /(.+)?angular(\\|\/)core(.+)?/, path.join( __dirname, './Angular' ) ),
+			// Workaround for an unknown plugin to resolve a particular unidentified issue 
 			new webpack.IgnorePlugin( /^vertx$/ )
 		].concat( develop ? [ ] : [ new CleanWebpackPlugin( [ 'Root/exe', 'Angular/exe' ] ) ] ),
+		// Library setting is unknown and necessitates further investigation into its use
 		output: { filename: '[name].bundle.js', publicPath: '/exe/', library: '[name]_[hash]' }
 	}
 	
@@ -71,6 +71,7 @@ module.exports = ( env ) => {
 		},
 		plugins: [
 			new ExtractTextPlugin( 'vendor.bundle.css' ),
+			// Declare the vendor manifest json file name and learn the name setting's use
 			new webpack.DllPlugin( {
 				path: path.join( __dirname, 'Root', 'exe', '[name].manifest.json' ),
 				name: '[name]_[hash]'
@@ -81,8 +82,10 @@ module.exports = ( env ) => {
 	
 	
 	const server = merge( meta, {
+		// Identifies the environment the bundles run in, such as in the browser or via Node
 		target: 'node',
 		entry: { vendor: modules.concat( [ 'aspnet-prerendering' ] ) },
+		// Search for information on the resolve option's mainFields attribute functionality
 		resolve: { mainFields: [ 'main' ] },
 		module: {
 			rules: [
@@ -90,6 +93,7 @@ module.exports = ( env ) => {
 			]
 		},
 		plugins: [
+			// Name the generated vendor manifest json file and look up the name setting
 			new webpack.DllPlugin( {
 				path: path.join( __dirname, 'Angular', 'exe', '[name].manifest.json' ),
 				name: '[name]_[hash]'
@@ -99,9 +103,9 @@ module.exports = ( env ) => {
 	} )
 	
 	
+	// Returned configs for Webpack to interpret, build, and output the specified bundles
 	return [ browser, server ]
 	
 }
-
 
 

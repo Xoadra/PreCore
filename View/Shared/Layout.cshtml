@@ -10,6 +10,8 @@
 		
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		<!-- Head tags reapplied via server prerendered Razor syntax -->
 		@Html.Raw( ViewData[ "Meta" ] )
 		@Html.Raw( ViewData[ "Links" ] )
 		
@@ -20,6 +22,7 @@
 	<body>
 		@RenderBody( )
 		
+		<!-- Data that will be grabbed by and parsed by the frontend -->
 		@Html.Raw( ViewData[ "Data" ] )
 		@Html.Raw( ViewData[ "Scripts" ] )
 		
@@ -27,5 +30,6 @@
 	</body>
 	
 </html>
+
 
 

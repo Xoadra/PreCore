@@ -10,6 +10,7 @@ import { HttpComponent } from './http/http.component'
 
 
 
+// Use route data for title, meta, and link tag content
 const routes: Routes = [
 	{
 		path: '', component: MainComponent,
@@ -45,5 +46,6 @@ const routes: Routes = [
 
 
 export class RouteModule {  }
+
 
 
