@@ -20,6 +20,7 @@ module.exports = ( env ) => {
 	
 	
 	const meta = {
+		mode: develop ? 'development' : 'production',
 		// Terminal output settings for displaying build information while files are bundled
 		stats: { modules: false },
 		// Webpack's absolute route where it looks for any config entry points and loaders
@@ -159,5 +160,6 @@ module.exports = ( env ) => {
 	return [ browser, server ]
 	
 }
+
 
 

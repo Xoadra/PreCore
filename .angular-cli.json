@@ -9,22 +9,42 @@
 	},
 	"apps": [
 		{
+			"name": "View",
+			"platform": "browser",
 			"root": "Angular",
-			"outDir": "exe",
+			"outDir": "Root",
 			"assets": [
 				"assets",
 				"favicon.ico"
 			],
-			"index": "index.html",
-			"main": "main.ts",
+			"index": "../View/Shared/Layout.cshtml",
+			"main": "boot.browser.ts",
 			"polyfills": "polyfills.ts",
 			"test": "test.ts",
 			"tsconfig": "tsconfig.app.json",
 			"testTsconfig": "tsconfig.spec.json",
 			"prefix": "app",
 			"styles": [
-				"styles.css"
+				"../Web/css/styles.css"
 			],
+			"scripts": [ ],
+			"environmentSource": "environments/environment.ts",
+			"environments": {
+				"dev": "environments/environment.ts",
+				"prod": "environments/environment.prod.ts"
+			}
+		},
+		{
+			"name": "Core",
+			"platform": "server",
+			"root": "Angular",
+			"outDir": "Node",
+			"assets": [
+				"assets"
+			],
+			"main": "boot.server.ts",
+			"tsconfig": "tsconfig.server.json",
+			"prefix": "app",
 			"scripts": [ ],
 			"environmentSource": "environments/environment.ts",
 			"environments": {
@@ -46,8 +66,10 @@
 	},
 	"defaults": {
 		"styleExt": "css",
-		"component": {  }
+		"component": {  },
+		"build": { "progress": true }
 	}
 }
+
 
 

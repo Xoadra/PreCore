@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.SpaServices.Webpack;
+/* using Microsoft.AspNetCore.SpaServices.Webpack; */
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -44,7 +44,6 @@ namespace PreCore {
         public void Configure( IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory ) {
 			loggerFactory.AddConsole( Configuration.GetSection( "Logging" ) );
 			loggerFactory.AddDebug( );
-			app.UseStaticFiles( );
 			if ( env.IsDevelopment( ) ) {
 				app.UseDeveloperExceptionPage( );
 				// Webpack middleware setup integration with backend
@@ -54,6 +53,7 @@ namespace PreCore {
 				} ); */
 			}
 			else { app.UseExceptionHandler( "/Home/Error" ); }
+			app.UseStaticFiles( );
 			app.UseMvc( routes => {
 				routes.MapRoute( name: "default", template: "{controller=Home}/{action=Index}/{id?}" );
 				routes.MapSpaFallbackRoute( name: "spa-fallback", defaults: new { controller = "Home", action = "Index" } );
